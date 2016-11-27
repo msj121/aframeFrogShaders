@@ -3,10 +3,20 @@ AFRAME.registerSystem('shader-frog', {
   init:function(){
     this.frog_runtime = new ShaderFrogRuntime();
     this.clock = new THREE.Clock();
-    var camera = document.querySelector("a-scene").systems["camera"];
-    if(camera && camera.sceneEl && camera.sceneEl.camera){
-      camera = camera.sceneEl.camera;
-      this.frog_runtime.registerCamera(camera);
+    var self = this;
+        
+    var scene = document.querySelector('a-scene');
+    if (scene.hasLoaded) {
+      registerCamera().bind(this);;
+    } else {
+      scene.addEventListener('loaded', registerCamera);
+    }
+    function registerCamera () {
+       var camera = document.querySelector("a-scene").systems["camera"];
+       if(camera && camera.sceneEl && camera.sceneEl.camera){
+         camera = camera.sceneEl.camera;
+         self.frog_runtime.registerCamera(camera);
+       }
     }
   },
   tick: function (t) {
