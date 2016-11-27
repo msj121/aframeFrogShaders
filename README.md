@@ -1,5 +1,5 @@
 # aframeFrogShaders
-Import Frog Shaders into AFrame
+Import Frog Shaders into AFrame (Inspired by (bryik): https://bl.ocks.org/bryik/33590d2cc9f712bd4bb040941e6efe22)
 
 
 # Example
