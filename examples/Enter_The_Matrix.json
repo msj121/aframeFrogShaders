@@ -1,0 +1,149 @@
+{
+  "id": 678,
+  "name": "Enter The Matrix",
+  "fragment": "// Based on https://www.shadertoy.com/view/MlfXzN\nprecision highp float;\nprecision highp int;\n\nuniform float time;\nuniform float speed;\n\nuniform vec2 charSize;\nuniform float charResolution;\nuniform vec3 color;\nuniform vec4 backgroundColor;\nuniform vec2 resolution;\n\nvarying vec2 vUv;\n\nfloat seed = 2.0;\n\nfloat random( float x ) {\n    return fract( sin( x ) * 43758.5453 );\n}\n\nfloat random( vec2 st ) {\n    return fract( sin( dot( st.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );\n}\n\nfloat randomChar( vec2 outer, vec2 inner ) {\n    vec2 margin = 1.0 - charSize;\n    vec2 borders = step( margin, inner ) * step( margin, 1.0 - inner );\n    return step(\n        0.5,\n        random( outer * seed + floor( inner * charResolution ) )\n    ) * borders.x * borders.y;\n}\n\nvec4 matrix( vec2 st ) {\n    float rows = 50.0;\n    vec2 ipos = floor( st * rows ) + vec2( 1.0, 0.0 );\n\n    ipos += vec2( 0.0, floor( time * speed * random( ipos.x ) ) );\n\n    vec2 fpos = fract( st * rows );\n    vec2 center = 0.5 - fpos;\n\n    float pct = random( ipos );\n    float glow = ( 1.0 - dot(center,center) * 3.0 ) * 2.0;\n\n    float result = randomChar( ipos, fpos ) * pct * glow;\n    return vec4( color * result, result );\n}\n\nvoid main() {\n    \n\tvec2 st = vUv * resolution;\n\tgl_FragColor = backgroundColor + matrix( st );\n\t\n}",
+  "vertex": "/**\n* Example Vertex Shader\n* Sets the position of the vertex by setting gl_Position\n*/\n\n// Set the precision for data types used in this shader\nprecision highp float;\nprecision highp int;\n\n// Default THREE.js uniforms available to both fragment and vertex shader\nuniform mat4 modelMatrix;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\nuniform mat4 viewMatrix;\nuniform mat3 normalMatrix;\n\n// Default uniforms provided by ShaderFrog.\nuniform vec3 cameraPosition;\nuniform float time;\n\n// Default attributes provided by THREE.js. Attributes are only available in the\n// vertex shader. You can pass them to the fragment shader using varyings\nattribute vec3 position;\nattribute vec3 normal;\nattribute vec2 uv;\nattribute vec2 uv2;\n\nvarying vec2 vUv;\n\nvoid main() {\n\n    vUv = uv;\n\n    // This sets the position of the vertex in 3d space. The correct math is\n    // provided below to take into account camera and object data.\n    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\n}",
+  "uniforms": {
+    "cameraPosition": {
+      "name": "cameraPosition",
+      "displayName": null,
+      "type": "v3",
+      "glslType": "vec3",
+      "useGridHelper": false,
+      "useRange": false,
+      "range": null,
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "time": {
+      "name": "time",
+      "displayName": null,
+      "type": "f",
+      "glslType": "float",
+      "useGridHelper": false,
+      "useRange": false,
+      "range": null,
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "color": {
+      "name": "color",
+      "displayName": null,
+      "type": "c",
+      "glslType": "vec3",
+      "useGridHelper": false,
+      "useRange": false,
+      "range": null,
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": "Example light color"
+    },
+    "resolution": {
+      "name": "resolution",
+      "displayName": null,
+      "type": "v2",
+      "glslType": "vec2",
+      "useGridHelper": true,
+      "useRange": false,
+      "range": {
+        "min": {
+          "x": "0",
+          "y": "0"
+        },
+        "max": {
+          "x": "2",
+          "y": "2"
+        }
+      },
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "backgroundColor": {
+      "name": "backgroundColor",
+      "displayName": null,
+      "type": "v4",
+      "glslType": "vec4",
+      "useGridHelper": false,
+      "useRange": false,
+      "range": null,
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "charResolution": {
+      "name": "charResolution",
+      "displayName": "Character Resolution",
+      "type": "f",
+      "glslType": "float",
+      "useGridHelper": false,
+      "useRange": true,
+      "range": {
+        "min": "0",
+        "max": "10"
+      },
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": "How many folds each randomly generated character has."
+    },
+    "speed": {
+      "name": "speed",
+      "displayName": "Speed",
+      "type": "f",
+      "glslType": "float",
+      "useGridHelper": false,
+      "useRange": true,
+      "range": {
+        "min": "0",
+        "max": "30"
+      },
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "charSize": {
+      "name": "charSize",
+      "displayName": "Character Size",
+      "type": "v2",
+      "glslType": "vec2",
+      "useGridHelper": true,
+      "useRange": false,
+      "range": {
+        "min": {
+          "x": "0",
+          "y": "0"
+        },
+        "max": {
+          "x": "1",
+          "y": "1"
+        }
+      },
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": "THe height and width of each character"
+    }
+  },
+  "url": "http://shaderfrog.com/app/view/678",
+  "user": {
+    "username": "andrewray",
+    "url": "http://shaderfrog.com/app/profile/andrewray"
+  }
+}
