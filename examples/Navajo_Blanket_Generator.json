@@ -1,0 +1,67 @@
+{
+  "id": 712,
+  "name": "Navajo Blanket Generator",
+  "fragment": "// Credit to https://www.shadertoy.com/view/4scXz8\nprecision highp float;\nprecision highp int;\n\n// Default THREE.js uniforms available to both fragment and vertex shader\nuniform mat4 modelMatrix;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\nuniform mat4 viewMatrix;\nuniform mat3 normalMatrix;\nuniform vec2 resolution;\nuniform float seed;\nuniform vec3 baseColor;\n\nvarying vec2 vUv;\n\nfloat Pattern( vec2 p, vec4 scale, float offset ) {\n    p = abs( p );//typical rug reflection\n    p.y += floor( 2.0 * fract( p.x ) ) * offset;\n    vec2 c = fract( vec2( p.x + p.y, p.x - p.y ) * scale.zw ) - 0.5; //diamond repeat\n    p = fract( p * scale.xy ) - 0.5; //square repeat\n    return step( p.x * p.y, 0.0 ) + step( c.x * c.y, 0.0 ); //overlaid checkers\n}\n\n// every time this is called seed should go up by 2\nfloat rand( float seed ) {\n    return fract( sin( seed ) * 324.234 );\n}\n\nfloat irnd( int i, float seed ) {\n    return floor( rand( seed) * float( i ) );\n}\n\nvoid main() {\n\n    vec2 uv = ( vUv - 0.5 ) * resolution * 3.0;\n \n    vec4 s = vec4(\n        irnd( 3, seed + 3.0 ), irnd( 3, seed + 5.0 ), irnd( 3, seed + 7.0 ), irnd( 3, seed + 9.0 )\n    ) / ( vec4(\n        irnd( 4, seed + 11.0 ), irnd( 4, seed + 13.0 ), irnd( 4, seed + 15.0 ), irnd( 4, seed + 17.0 ) ) + 1.0\n    );\n    \n    float b = irnd( 3, seed + 19.0 ) / ( 1.0 + irnd( 4, seed + 21.0 ) );\n    float d = ( Pattern( uv, s, b ) + Pattern( uv * 3.0, s, b ) ) * 0.4;\n    vec2 g = vec2( 370.0, 8.8 );\n    vec3 col = max( cos( baseColor + d ), 0.0 );\n    \n    gl_FragColor = vec4( col, 1.0 );\n    \n}",
+  "vertex": "precision highp float;\nprecision highp int;\n\n// Default THREE.js uniforms available to both fragment and vertex shader\nuniform mat4 modelMatrix;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\nuniform mat4 viewMatrix;\nuniform mat3 normalMatrix;\n\nattribute vec3 position;\nattribute vec3 normal;\nattribute vec2 uv;\n\n// Examples of variables passed from vertex to fragment shader\nvarying vec3 vPosition;\nvarying vec3 vNormal;\nvarying vec2 vUv;\nvarying vec2 vUv2;\n\nvoid main() {\n\n    vUv = uv;\n\n    // This sets the position of the vertex in 3d space. The correct math is\n    // provided below to take into account camera and object data.\n    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\n}",
+  "uniforms": {
+    "resolution": {
+      "name": "resolution",
+      "displayName": null,
+      "type": "v2",
+      "glslType": "vec2",
+      "useGridHelper": true,
+      "useRange": false,
+      "range": {
+        "min": {
+          "x": "0",
+          "y": "0"
+        },
+        "max": {
+          "x": "2",
+          "y": "2"
+        }
+      },
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "seed": {
+      "name": "seed",
+      "displayName": null,
+      "type": "f",
+      "glslType": "float",
+      "useGridHelper": false,
+      "useRange": false,
+      "range": null,
+      "isRandom": true,
+      "randomRange": {
+        "min": "0",
+        "max": "1000"
+      },
+      "useToggle": false,
+      "toggle": null,
+      "description": ""
+    },
+    "baseColor": {
+      "name": "baseColor",
+      "displayName": null,
+      "type": "v3",
+      "glslType": "vec3",
+      "useGridHelper": false,
+      "useRange": false,
+      "range": null,
+      "isRandom": false,
+      "randomRange": null,
+      "useToggle": false,
+      "toggle": null,
+      "description": "The sum of x, y and z should be 3."
+    }
+  },
+  "url": "http://shaderfrog.com/app/view/712",
+  "user": {
+    "username": "andrewray",
+    "url": "http://shaderfrog.com/app/profile/andrewray"
+  }
+}
