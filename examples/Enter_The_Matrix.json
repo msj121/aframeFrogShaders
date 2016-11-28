@@ -44,9 +44,18 @@
       "randomRange": null,
       "useToggle": false,
       "toggle": null,
-      "description": "Example light color"
+      "description": "Example light color",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      }
     },
     "resolution": {
+      "value": {
+        "x": 1,
+        "y": 1
+      },
       "name": "resolution",
       "displayName": null,
       "type": "v2",
@@ -70,6 +79,12 @@
       "description": ""
     },
     "backgroundColor": {
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0
+      }
       "name": "backgroundColor",
       "displayName": null,
       "type": "v4",
@@ -84,6 +99,7 @@
       "description": ""
     },
     "charResolution": {
+      "value": "5",
       "name": "charResolution",
       "displayName": "Character Resolution",
       "type": "f",
@@ -101,6 +117,7 @@
       "description": "How many folds each randomly generated character has."
     },
     "speed": {
+      "value": "15",
       "name": "speed",
       "displayName": "Speed",
       "type": "f",
@@ -118,6 +135,10 @@
       "description": ""
     },
     "charSize": {
+      "value": {
+        "x": 1,
+        "y": 1
+      },
       "name": "charSize",
       "displayName": "Character Size",
       "type": "v2",
