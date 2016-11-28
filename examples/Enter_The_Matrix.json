@@ -79,6 +79,7 @@
       "description": ""
     },
     "backgroundColor": {
+      "value":null,
       "name": "backgroundColor",
       "displayName": null,
       "type": "v4",
