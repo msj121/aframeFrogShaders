@@ -79,7 +79,11 @@
       "description": ""
     },
     "backgroundColor": {
-      "value":null,
+      "value": {
+        "r":1,
+        "g":1,
+        "b":1
+      },
       "name": "backgroundColor",
       "displayName": null,
       "type": "v4",
