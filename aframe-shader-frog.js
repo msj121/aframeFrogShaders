@@ -27,10 +27,16 @@ AFRAME.registerComponent('shader-frog',{
   schema:{
     src:{type:"src"}
   },
+  init: function(){
+    this.originalMaterial = this.el.getObject3D('mesh').material;
+  },
   update: function(){
     this.system.frog_runtime.load(this.data.src,function(shaderData){
       var material = this.system.frog_runtime.get(shaderData.name);
       this.el.getObject3D('mesh').material = material;
     }.bind(this));
+  },
+  remove: function(){
+    this.el.getObject3D('mesh').material = this.originalMaterial;
   }
 });
