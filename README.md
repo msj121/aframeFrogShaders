@@ -10,6 +10,11 @@ Using New Composed Shader by entropy found here: http://shaderfrog.com/app/view/
  Add the aframe-shader-frog.js as a javascript file:
  `<script src="/js/aframe-shader-frog.js"></script>`
  
+ Or simply add reference to the file, keep in mind this file will likely change and be updated:
+`<script src="https://rawgit.com/msj121/aframeFrogShaders/master/aframe-shader-frog.js"></script>`
+
+
+ 
  Now use it in your scene:
 `<a-sphere shader-frog="src:url(<shader url>.json)"></a-sphere>`
 You will need to upload this file to your server or access the json that you can save from shaderfrog.com
